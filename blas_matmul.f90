@@ -19,7 +19,7 @@ interface
 
   integer, parameter :: m=8000, n=4000, k=12000
   real :: duration
-  integer :: start_time, stop_time
+  integer :: start_time, stop_time, clock_rate
   real(kind=dp), dimension(m,n) :: mat1
   real(kind=dp), dimension(n,k) :: mat2
   real(kind=dp), dimension(m,k) :: mat3
@@ -32,11 +32,11 @@ interface
   write(*,*) 'mat2 created!'
 !  call write_matrix(mat2)
 
-  call system_clock(start_time)
+  call system_clock(start_time, count_rate=clock_rate)
   call DGEMM("N","N",m,k,n,1.d0,mat1,m,mat2,n,0.d0,mat3,m)
-  call system_clock(stop_time)
+  call system_clock(stop_time, count_rate=clock_rate)
 
-  duration = (real(stop_time)-real(start_time))/1000
+  duration = (real(stop_time)-real(start_time))/clock_rate
 
   write (*,*) 'matrix multiplication took [s]: ', duration
 
